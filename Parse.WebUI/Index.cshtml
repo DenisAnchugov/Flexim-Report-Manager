@@ -1,0 +1,59 @@
+﻿<html>
+<head>
+    <title>@Page.Title</title>
+    <link href="~/Styles/style.css" rel="stylesheet" />
+    <script src="~/Scripts/display_day_time_ranges.js"></script>
+    <script src="~/Scripts/display_saldo.js"></script>
+    <script src="~/Scripts/display_working_hours.js"></script>
+</head>
+<body>
+    <div id="container">     
+        <form name="form1" method="post" action="/api/docfile" enctype="multipart/form-data">
+            <div>
+                <label>
+                    Choose File(s)
+                </label>
+                @*<input name="myFile" type="file" multiple="multiple"/>*@
+                </div>
+                <div>
+                    <input type="file" name="files" multiple="multiple" />
+                    <input type="submit" value="Upload" multiple="multiple" />
+                </div>
+            </form>
+        <script type="text/javascript">
+
+            function parseJSON() {
+                $.getJSON('/api/docfile/5', function (json) {
+                    var parsedJSON = $.parseJSON(json);
+                    draw(parsedJSON);
+                })
+            }
+
+            function draw(parsedJSON) {
+                var container = document.getElementById('container');
+                for (var i = 0; i < parsedJSON.months.length; i++) {
+                    var monthDiv = document.createElement('DIV')
+                    var period = document.createElement('DIV')
+
+                    period.textContent = parsedJSON.months[i].monthPeriod;
+                    period.className = 'period';
+                    monthDiv.className = 'graph-container';
+                    monthDiv.id = parsedJSON.months[i].monthPeriod;
+                    monthDiv.appendChild(period);
+                    container.appendChild(monthDiv);
+
+                    displayData(parsedJSON.months[i].days, monthDiv.id);
+                    displayWHRange(parsedJSON.months[i].days, monthDiv.id);
+                    displaySaldo(parsedJSON.months[i].days, monthDiv.id);
+
+                    //if (i % 2 == 0)
+                    //    monthDiv.style.backgroundColor = 'rgb(0, 0, 0)';
+                    //else
+                    //    monthDiv.style.backgroundColor = 'rgb(61, 27, 41)';
+                }
+            }
+        </script>
+        <button class="load" onclick="parseJSON()">Draw</button>
+    </div>
+</body>
+</html>

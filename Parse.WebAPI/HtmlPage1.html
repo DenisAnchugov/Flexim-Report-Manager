@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+</head>
+<body>
+
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <form id="form1" name="form1" method="post" action="/api/docfile" enctype="multipart/form-data">
+        <div>
+            <label>
+                Choose File(s)
+            </label>
+        </div>
+        <div>
+            <input type="file" name="files" multiple="multiple" />
+            <input type="submit" value="Upload" multiple="multiple" />
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        var yearValues = [];     
+        function parseJSON() {
+            $.getJSON('/api/docfile/5', function (json) {
+                var parsedJSON = $.parseJSON(json);
+                buildObjects(parsedJSON);
+            })
+        };
+
+        function ChartData(series){
+            type = "hbar";
+            stacked = true;
+            stack-type = "normal";
+            series = [];
+           };
+
+        function Values() {
+            values = [];
+            stack = 0;
+        };
+
+        function buildObjects(json) {
+            for (i = 0; i < json.months.length; i++) {
+                for (j = 0; j < json.months[i].days.length; j++) {
+                    var monthValues = [];
+                    for (k = 0; k < json.months[i].days[j].checkIns.length; k++) {                                               
+                        monthValues.push(json.months[i].days[j].checkIns[k].checkInRange);
+                    };
+                    yearValues.push(monthValues);                                                                             
+                }
+            };
+            for(l = 0; l < yearValues.length; l++)
+            {
+                yearValues[l].reverse();
+
+            }
+        };
+
+    </script>
+    <button class="load" onclick="parseJSON()">Draw</button>
+</body>
+</html>

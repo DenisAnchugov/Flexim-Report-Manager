@@ -1,0 +1,237 @@
+﻿<html>
+<head>
+    <title>@Page.Title</title>
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <script src="~/Scripts/Graph_Scripts/display_saldo.js"></script>
+    <script src="~/Scripts/Graph_Scripts/display_working_hours.js"></script>
+    <script src="~/Scripts/Graph_Scripts/display_day_time_ranges.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+</head>
+<body>
+    <div id="container">
+        <div style="width: 33.3%; height: inherit; float: left;" id="working_ranges_daily"></div>
+        <div style="width: 33.3%; height: inherit; float: right;" id="saldo"></div>
+        <div style="width: 33.3%; height: inherit; float: right;" id="working_hours_daily"></div>
+        
+        
+        <form id="form1" name="form1" method="post" action="/api/docfile"  enctype="multipart/form-data">
+            <div>
+                <label>
+                    Choose File(s)
+                </label>
+              
+            </div>
+            <div>
+                <input type="file" name="files" multiple="multiple"/>
+                <input type="submit" value="Upload" multiple="multiple"/>
+            </div>
+        </form>
+        <script type="text/javascript">
+
+            var workRangesDaily = [['Date', 'OffTime', 'WorkTime', 'LunchTime', 'WorkTime']];
+            var saldoRanges = [['Date', 'Saldo', { role: 'style' }, { type: 'string', role: 'tooltip' }]];
+            var workingHoursDaily = [['Date', 'Working Hours', { type: 'string', role: 'tooltip' }]];
+
+            function parseJSON() {
+                $.getJSON('/api/docfile/5', function (json) {
+                    var parsedJSON = $.parseJSON(json);
+                    workRangesDailyArrayGen(parsedJSON);
+                    
+                })
+            };
+            function workRangesDailyArrayGen(json) {
+
+                for (i = 0; i < json.months.length; i++) {
+                    for (j = 0; j < json.months[i].days.length; j++) {
+
+                        var day = [];
+                        var saldo = [];
+                        var workingHours = [];
+            
+                        day.push(json.months[i].days[j].stringDate);
+                        saldo.push('');
+                        workingHours.push('');
+
+                        saldo.push(json.months[i].days[j].saldo * 60)
+                        if (json.months[i].days[j].saldo < 0) {
+                            saldo.push('#dc3912');
+                        } else {
+                            saldo.push('#3366cc');
+                        }
+                        saldo.push((Math.floor((json.months[i].days[j].saldo * 60) / 60).toFixed(0) + 'h ' + Math.abs((json.months[i].days[j].saldo * 60) % 60).toFixed(0) + 'm'))
+                        workingHours.push(json.months[i].days[j].workingHoursDay * 60);
+                        workingHours.push((Math.floor((json.months[i].days[j].workingHoursDay * 60) / 60).toFixed(0) + 'h ' + Math.abs((json.months[i].days[j].workingHoursDay * 60) % 60).toFixed(0) + 'm'))
+
+
+                        saldoRanges.push(saldo);
+                        workingHoursDaily.push(workingHours);
+
+                        for (k = 0; k < json.months[i].days[j].checkIns.length; k++) {
+                            day.push(json.months[i].days[j].checkIns[k].checkInRange);
+                        }
+                    
+                        var isFive = false;
+
+                        while (isFive !== true) {
+                            if (day.length !== 5) {
+                                if (day.length > 5) {
+                                    day.pop();
+                                } else if (day.length < 5) {
+                                    day.push(0);
+                                } else {
+                                    isFive = true;
+                                    workRangesDaily.push(day);
+                                }
+                            } else {
+                                workRangesDaily.push(day);
+                                isFive = true;
+                            }
+                        }
+                    }
+                };
+                drawSaldoRangesChart();
+                drawWorkRangesChart();
+                drawWorkingHoursDailyChart()
+                
+            }         
+            var workRangeChart;
+            var saldoChart;
+            var workTimeChart;
+
+            google.load("visualization", "1", { packages: ["corechart"] });           
+            function drawWorkRangesChart() {
+                var data = google.visualization.arrayToDataTable(workRangesDaily);
+
+                var rowHeight = 25;
+                var padding = 10;
+
+                var chartHeight = (data.getNumberOfRows() + 1) * rowHeight + padding * (data.getNumberOfRows() + 1);
+
+                var options = {                  
+                    width: 1000,
+                    height: chartHeight,
+                    legend: { position: 'top', maxLines: 3 },
+                    bar: { groupWidth: '75%' },
+                    isStacked: true,
+                };
+
+                workRangeChart = new google.visualization.BarChart(document.getElementById('working_ranges_daily'));
+                workRangeChart.draw(data, options);
+
+                google.visualization.events.addListener(workRangeChart, 'onmouseover', barMouseOver);
+                google.visualization.events.addListener(workRangeChart, 'onmouseout', barMouseOut);
+            }
+
+            function barMouseOver(e) {
+                var selectionRow = e.row;
+                workRangeChart.setSelection([e]);
+                saldoChart.setSelection([{ 'row': selectionRow, 'column': 1 }]);
+                workTimeChart.setSelection([{ 'row': selectionRow, 'column': 1 }]);
+            };
+            function barMouseOut(e) {
+                workRangeChart.setSelection([{ 'row': null, 'column': null }]);
+                saldoChart.setSelection([{ 'row': null, 'column': null }]);
+                workTimeChart.setSelection([{ 'row': null, 'column': null }]);
+            }
+            
+
+
+            function drawWorkingHoursDailyChart() {
+                var data = google.visualization.arrayToDataTable(workingHoursDaily);
+
+                var rowHeight = 25;
+                var padding = 10;
+
+                var chartHeight = (data.getNumberOfRows() + 1) * rowHeight + padding * (data.getNumberOfRows() + 1);
+
+                var options = {
+                    width: 1000,
+                    height: chartHeight,
+                    legend: { position: 'top', maxLines: 3 },
+                    bar: { groupWidth: '75%' },
+                    isStacked: true,                  
+                };
+
+                workTimeChart = new google.visualization.BarChart(document.getElementById('working_hours_daily'));
+                workTimeChart.draw(data, options);
+
+                google.visualization.events.addListener(workTimeChart, 'onmouseover', barMouseOver);
+                google.visualization.events.addListener(workTimeChart, 'onmouseout', barMouseOut);
+            }
+            function drawSaldoRangesChart() {
+                var data = google.visualization.arrayToDataTable(saldoRanges);
+
+                var rowHeight = 25;
+                var padding = 10;
+
+                var chartHeight = (data.getNumberOfRows() + 1) * rowHeight + padding * (data.getNumberOfRows() + 1);
+
+                var options = {
+                    width: 1000,
+                    height: chartHeight,
+                    legend: { position: 'top', maxLines: 3 },
+                    bar: { groupWidth: '75%' },
+                    isStacked: true,
+                };
+
+                saldoChart = new google.visualization.BarChart(document.getElementById('saldo'));
+                saldoChart.draw(data, options);
+
+                google.visualization.events.addListener(saldoChart, 'onmouseover', barMouseOver);
+                google.visualization.events.addListener(saldoChart, 'onmouseout', barMouseOut);
+            }
+
+            
+
+        </script>
+        @*<script type="text/javascript">
+
+            var months = [];
+            function parseJSON() {
+                $.getJSON('/api/docfile/5', function (json) {
+                    var parsedJSON = $.parseJSON(json);
+                    draw(parsedJSON);
+                    objectGen(parsedJSON);
+                })
+            };
+            function objectGen(json) {
+
+                for (i = 0; i <= json.months.length; i++) {
+                    for (j = 0; j <= json.months[i].days.length; j++) {
+                        var day = [];
+                        day.push(json.months[i].days[j].stringDate);
+                        for (k = 0; k < json.months[i].days[j].checkIns.length; k++) {
+                            day.push(json.months[i].days[j].checkIns[k].checkInRange);
+                        }
+                        months.push(day);
+                    }
+                };              
+            }
+            function draw(parsedJSON) {
+                var container = document.getElementById('container');
+                for (var i = 0; i < parsedJSON.months.length; i++) {
+                    var monthDiv = document.createElement('DIV')
+                    var period = document.createElement('DIV')
+
+                    period.textContent = parsedJSON.months[i].monthPeriod;
+                    period.className = 'period';
+                    monthDiv.className = 'graph-container';
+                    monthDiv.id = parsedJSON.months[i].monthPeriod;
+                    monthDiv.appendChild(period);
+                    container.appendChild(monthDiv);
+
+                    displayData(parsedJSON.months[i].days, monthDiv.id);
+                    displayWHRange(parsedJSON.months[i].days, monthDiv.id);
+                    displaySaldo(parsedJSON.months[i].days, monthDiv.id);
+
+                    //if (i % 2 == 0)
+                    //    monthDiv.style.backgroundColor = 'rgb(0, 0, 0)';
+                    //else
+                    //    monthDiv.style.backgroundColor = 'rgb(61, 27, 41)';
+                }
+            };
+        </script>*@
+        <button class="load" onclick="parseJSON()">Draw</button>
+    </div>
+</body>
+</html>

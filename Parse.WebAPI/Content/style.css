@@ -1,0 +1,137 @@
+﻿body {
+    background-color: #1F1F21;   
+    color: #F7F7F7; 
+}
+#container canvas {  
+    height: 15px; 
+}
+.offTime { 
+       
+}
+.workTime {
+     
+}
+.lunchTime {
+
+}
+
+#form1 {
+border-bottom-style: outset;
+}
+.positive-saldo {
+    clear: both;
+    margin: 3px 0px;
+    float: left;
+    background: rgb(205, 146, 78);
+    height: 15px;
+}
+.negative-saldo {
+    background: rgb(185, 38, 54);
+    clear: both;
+    margin: 3px 0px;
+    float: left;
+    height: 15px;  
+}
+.saldo-container {
+    width: 400px;
+    height: inherit;
+    float:left;
+}
+.saldo-container div {
+    height: 15px;
+    text-align: center;
+    font-family: Tahoma;
+    font-size: 14px;  
+}
+.checkin-ranges-container div {
+    height: 15px;
+    float: left;   
+}
+.checkin-ranges-container{
+   
+}
+.working-hours-container {
+    width: inherit;
+    float: left;
+    height: inherit; 
+    padding: 0px 50px;     
+}
+.working-hours {
+    clear: both;
+    margin: 3px 0px;
+    float: left;
+    background: rgb(205, 146, 78);
+    height: 15px;
+    text-align: center;
+    font-family: Tahoma;
+    font-size: 14px;
+}
+.graph-container{
+    min-height: 100px;
+    overflow: hidden;
+    padding: 20px 20px;
+    border-bottom-style: outset;
+    padding-bottom: 40px;
+    background-color: #1F1F21;  
+}
+.dates {
+    height: 100%;
+    display: block;
+}
+.date {
+    height: 15px;
+    clear: both;
+    margin: 3px 0px;
+    font-size: 14px;
+    font-family: Tahoma;   
+    vertical-align: middle;
+}
+.intervals {
+    height: 100%;
+    text-align: center;
+    font-family: Tahoma;
+    font-size: 14px;
+
+}
+.day {
+    clear: both;
+    margin: 3px 0px;
+    height: 10px;
+}
+.period{   
+    font-family: Tahoma;
+    font-size: 30px;
+    font-weight: bold;
+    padding-bottom: 20px;   
+    margin-bottom: 10px
+}
+.tooltip {
+      position: absolute;
+      width: 60px;
+      height: 20px;     
+      padding: 10px;
+      font-size: 14px;
+      text-align: center;      
+      background: rgb(255, 255, 255);
+      border: 1px solid rgb(255, 255, 255);
+      border-radius: 4px;
+      text-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 1px;
+      box-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 2px 0px;
+      margin-top: -40px;
+}
+.canvas {
+
+    height: 15px;
+}
+
+/*span.tooltip:after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-width: 10px;
+      border-style: solid;
+      border-color: #FFFFFF transparent transparent transparent;
+      top: 44px;
+      left: 50px;
+}*/
