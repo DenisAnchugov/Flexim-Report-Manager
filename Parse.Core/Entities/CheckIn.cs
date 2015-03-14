@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Globalization;
 using FleximReportManager.ReportParser.Enums;
 
 namespace FleximReportManager.ReportParser.Entities
 {
    public struct CheckIn
-    {
-       public string checkInMark;
-       public DateTime checkInTime;
-       public Double checkInRange;
-       public string rangeType;
+   {
+       string checkInMark;
+       DateTime checkInTime;
+       Double checkInRange;
+       string rangeType;
 
         public CheckIn(CheckInType checkInMark, DateTime checkInTime, Double checkInRange, RangeType rangeType)
         {

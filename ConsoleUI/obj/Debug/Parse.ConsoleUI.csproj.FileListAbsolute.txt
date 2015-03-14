@@ -1,1 +1,13 @@
 C:\Users\Denis\Desktop\fleximreportmanager\ConsoleUI\bin\Debug\ConsoleUI.exe.config
+C:\Users\Denis\Source\Repos\Flexim-Report-Manager\ConsoleUI\bin\Debug\ConsoleUI.exe.config
+C:\Users\Denis\Source\Repos\Flexim-Report-Manager\ConsoleUI\bin\Debug\ConsoleUI.exe
+C:\Users\Denis\Source\Repos\Flexim-Report-Manager\ConsoleUI\bin\Debug\ConsoleUI.pdb
+C:\Users\Denis\Source\Repos\Flexim-Report-Manager\ConsoleUI\bin\Debug\EntityFramework.dll
+C:\Users\Denis\Source\Repos\Flexim-Report-Manager\ConsoleUI\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Denis\Source\Repos\Flexim-Report-Manager\ConsoleUI\bin\Debug\ReportParser.dll
+C:\Users\Denis\Source\Repos\Flexim-Report-Manager\ConsoleUI\bin\Debug\ReportParser.pdb
+C:\Users\Denis\Source\Repos\Flexim-Report-Manager\ConsoleUI\bin\Debug\EntityFramework.xml
+C:\Users\Denis\Source\Repos\Flexim-Report-Manager\ConsoleUI\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Denis\Source\Repos\Flexim-Report-Manager\ConsoleUI\obj\Debug\Parse.ConsoleUI.csprojResolveAssemblyReference.cache
+C:\Users\Denis\Source\Repos\Flexim-Report-Manager\ConsoleUI\obj\Debug\ConsoleUI.exe
+C:\Users\Denis\Source\Repos\Flexim-Report-Manager\ConsoleUI\obj\Debug\ConsoleUI.pdb

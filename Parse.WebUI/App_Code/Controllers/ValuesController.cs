@@ -41,9 +41,9 @@ namespace Parse.WebUI.Controllers
                         postedFile.SaveAs(filePath);
                         docfiles.Add(filePath);
                     }
-                
-                Parser.ParseLogic pl = new Parser.ParseLogic();
-                response = pl.ReturnJson(docfiles);
+
+                var pl = new Parser.ParseLogic();
+                response = Parser.ParseHelper.SerializeToJson(pl.ReadReports(docfiles));
                
             }           
         }

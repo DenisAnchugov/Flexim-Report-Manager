@@ -61,7 +61,7 @@
     <Compile Include="Enums\DayOfTheWeek.cs" />
     <Compile Include="Enums\DayType.cs" />
     <Compile Include="Enums\RangeType.cs" />
-    <Compile Include="Helper.cs" />
+    <Compile Include="ParseHelper.cs" />
     <Compile Include="ParseLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Enums\SpecialNoteType.cs" />

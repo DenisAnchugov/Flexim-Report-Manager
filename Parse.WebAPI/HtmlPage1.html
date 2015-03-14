@@ -42,11 +42,11 @@
         };
 
         function buildObjects(json) {
-            for (i = 0; i < json.months.length; i++) {
-                for (j = 0; j < json.months[i].days.length; j++) {
+            for (i = 0; i < json.Months.length; i++) {
+                for (j = 0; j < json.Months[i].days.length; j++) {
                     var monthValues = [];
-                    for (k = 0; k < json.months[i].days[j].checkIns.length; k++) {                                               
-                        monthValues.push(json.months[i].days[j].checkIns[k].checkInRange);
+                    for (k = 0; k < json.Months[i].days[j].checkIns.length; k++) {                                               
+                        monthValues.push(json.Months[i].days[j].checkIns[k].checkInRange);
                     };
                     yearValues.push(monthValues);                                                                             
                 }

@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using System.Web.Razor.Parser;
 
 namespace Parse.WebAPI.Controllers
 {
     public class DocFileController : ApiController
     {
-       static string response;
+        static string response;
         // GET api/values
         public IEnumerable<string> Get()
         {
@@ -19,33 +17,30 @@ namespace Parse.WebAPI.Controllers
 
         // GET api/values/5
         public string Get(int id)
-        {         
-            return response;                    
+        {
+            return response;
         }
-          
+
         // POST api/values
         public void Post()
         {
-         
             var httpRequest = HttpContext.Current.Request;
-            if(httpRequest.Files.Count > 0)
+            if (httpRequest.Files.Count > 0)
             {
-                List<string> docfiles = new List<string>();
-                string filename = httpRequest.Files[0].FileName;
-                //string filename2 = httpRequest.Files[1].FileName;
+                var docfiles = new List<string>();
+                var filename = httpRequest.Files[0].FileName;
 
-                for (int i = 0; i <= httpRequest.Files.Count - 1; i++)                   
-                    {                        
-                        var postedFile = httpRequest.Files[i];
-                        var filePath = HttpContext.Current.Server.MapPath("~/" + postedFile.FileName);
-                        postedFile.SaveAs(filePath);
-                        docfiles.Add(filePath);
-                    }
-                
-                Parser.ParseLogic pl = new Parser.ParseLogic();
-                response = pl.ReturnJson(docfiles);
-               
-            }           
+                for (var i = 0; i <= httpRequest.Files.Count - 1; i++)
+                {
+                    var postedFile = httpRequest.Files[i];
+                    var filePath = HttpContext.Current.Server.MapPath("~/" + postedFile.FileName);
+                    postedFile.SaveAs(filePath);
+                    docfiles.Add(filePath);
+                }
+
+                var pl = new Parser.ParseLogic();
+                response = Parser.ParseHelper.SerializeToJson(pl.ReadReports(docfiles));
+            }
         }
 
         // PUT api/values/5

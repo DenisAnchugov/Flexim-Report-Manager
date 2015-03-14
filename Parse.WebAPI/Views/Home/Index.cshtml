@@ -41,33 +41,33 @@
             };
             function workRangesDailyArrayGen(json) {
 
-                for (i = 0; i < json.months.length; i++) {
-                    for (j = 0; j < json.months[i].days.length; j++) {
+                for (i = 0; i < json.Months.length; i++) {
+                    for (j = 0; j < json.Months[i].days.length; j++) {
 
                         var day = [];
                         var saldo = [];
                         var workingHours = [];
             
-                        day.push(json.months[i].days[j].stringDate);
+                        day.push(json.Months[i].days[j].stringDate);
                         saldo.push('');
                         workingHours.push('');
 
-                        saldo.push(json.months[i].days[j].saldo * 60)
-                        if (json.months[i].days[j].saldo < 0) {
+                        saldo.push(json.Months[i].days[j].saldo * 60)
+                        if (json.Months[i].days[j].saldo < 0) {
                             saldo.push('#dc3912');
                         } else {
                             saldo.push('#3366cc');
                         }
-                        saldo.push((Math.floor((json.months[i].days[j].saldo * 60) / 60).toFixed(0) + 'h ' + Math.abs((json.months[i].days[j].saldo * 60) % 60).toFixed(0) + 'm'))
-                        workingHours.push(json.months[i].days[j].workingHoursDay * 60);
-                        workingHours.push((Math.floor((json.months[i].days[j].workingHoursDay * 60) / 60).toFixed(0) + 'h ' + Math.abs((json.months[i].days[j].workingHoursDay * 60) % 60).toFixed(0) + 'm'))
+                        saldo.push((Math.floor((json.Months[i].days[j].saldo * 60) / 60).toFixed(0) + 'h ' + Math.abs((json.Months[i].days[j].saldo * 60) % 60).toFixed(0) + 'm'))
+                        workingHours.push(json.Months[i].days[j].workingHoursDay * 60);
+                        workingHours.push((Math.floor((json.Months[i].days[j].workingHoursDay * 60) / 60).toFixed(0) + 'h ' + Math.abs((json.Months[i].days[j].workingHoursDay * 60) % 60).toFixed(0) + 'm'))
 
 
                         saldoRanges.push(saldo);
                         workingHoursDaily.push(workingHours);
 
-                        for (k = 0; k < json.months[i].days[j].checkIns.length; k++) {
-                            day.push(json.months[i].days[j].checkIns[k].checkInRange);
+                        for (k = 0; k < json.Months[i].days[j].checkIns.length; k++) {
+                            day.push(json.Months[i].days[j].checkIns[k].checkInRange);
                         }
                     
                         var isFive = false;
@@ -186,7 +186,7 @@
         </script>
         @*<script type="text/javascript">
 
-            var months = [];
+            var Months = [];
             function parseJSON() {
                 $.getJSON('/api/docfile/5', function (json) {
                     var parsedJSON = $.parseJSON(json);
@@ -196,33 +196,33 @@
             };
             function objectGen(json) {
 
-                for (i = 0; i <= json.months.length; i++) {
-                    for (j = 0; j <= json.months[i].days.length; j++) {
+                for (i = 0; i <= json.Months.length; i++) {
+                    for (j = 0; j <= json.Months[i].days.length; j++) {
                         var day = [];
-                        day.push(json.months[i].days[j].stringDate);
-                        for (k = 0; k < json.months[i].days[j].checkIns.length; k++) {
-                            day.push(json.months[i].days[j].checkIns[k].checkInRange);
+                        day.push(json.Months[i].days[j].stringDate);
+                        for (k = 0; k < json.Months[i].days[j].checkIns.length; k++) {
+                            day.push(json.Months[i].days[j].checkIns[k].checkInRange);
                         }
-                        months.push(day);
+                        Months.push(day);
                     }
                 };              
             }
             function draw(parsedJSON) {
                 var container = document.getElementById('container');
-                for (var i = 0; i < parsedJSON.months.length; i++) {
+                for (var i = 0; i < parsedJSON.Months.length; i++) {
                     var monthDiv = document.createElement('DIV')
                     var period = document.createElement('DIV')
 
-                    period.textContent = parsedJSON.months[i].monthPeriod;
+                    period.textContent = parsedJSON.Months[i].monthPeriod;
                     period.className = 'period';
                     monthDiv.className = 'graph-container';
-                    monthDiv.id = parsedJSON.months[i].monthPeriod;
+                    monthDiv.id = parsedJSON.Months[i].monthPeriod;
                     monthDiv.appendChild(period);
                     container.appendChild(monthDiv);
 
-                    displayData(parsedJSON.months[i].days, monthDiv.id);
-                    displayWHRange(parsedJSON.months[i].days, monthDiv.id);
-                    displaySaldo(parsedJSON.months[i].days, monthDiv.id);
+                    displayData(parsedJSON.Months[i].days, monthDiv.id);
+                    displayWHRange(parsedJSON.Months[i].days, monthDiv.id);
+                    displaySaldo(parsedJSON.Months[i].days, monthDiv.id);
 
                     //if (i % 2 == 0)
                     //    monthDiv.style.backgroundColor = 'rgb(0, 0, 0)';
